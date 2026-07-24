@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+<style>
+text{font-family:Arial,sans-serif;fill:#111}.title{font-size:32px;font-weight:bold}.h{font-size:21px;font-weight:bold}.t{font-size:17px}.s{font-size:14px}
+.box{fill:#fff;stroke:#222;stroke-width:3;rx:15}.p{stroke:#d32f2f;stroke-width:7;fill:none}.g{stroke:#111;stroke-width:7;fill:none}
+.sig{stroke:#1565c0;stroke-width:5;fill:none}.m{stroke:#ef6c00;stroke-width:7;fill:none}.note{fill:#fff8e1;stroke:#ef6c00;stroke-width:2}
+</style>
+<rect width="1600" height="980" fill="#fafafa"/>
+<text x="800" y="50" text-anchor="middle" class="title">NATIVE ZIGBEE CASEMENT OPENER — AUTHORITATIVE WIRING</text>
+
+<rect class="box" x="45" y="120" width="240" height="170"/>
+<text x="165" y="160" text-anchor="middle" class="h">12 V SUPPLY</text>
+<text x="165" y="205" text-anchor="middle" class="t">+12 V through fuse</text>
+<text x="165" y="245" text-anchor="middle" class="t">GND</text>
+
+<rect class="box" x="410" y="85" width="340" height="280"/>
+<text x="580" y="125" text-anchor="middle" class="h">DRV8871</text>
+<text x="445" y="175" class="t">VM / POWER+</text><text x="445" y="215" class="t">GND / POWER−</text>
+<text x="445" y="270" class="t">IN1 ← D0</text><text x="445" y="315" class="t">IN2 ← D1</text>
+<text x="645" y="175" class="t">MOTOR1</text><text x="645" y="215" class="t">MOTOR2</text>
+
+<rect class="box" x="1000" y="105" width="300" height="145"/>
+<text x="1150" y="145" text-anchor="middle" class="h">12 V DC MOTOR</text>
+<text x="1150" y="195" text-anchor="middle" class="t">Two motor leads</text>
+<text x="1150" y="225" text-anchor="middle" class="s">Mechanical V-gear slip stage</text>
+
+<rect class="box" x="410" y="475" width="310" height="190"/>
+<text x="565" y="515" text-anchor="middle" class="h">12 V → 5 V BUCK</text>
+<text x="445" y="565" class="t">IN+ / IN−</text><text x="605" y="565" class="t">5V / GND</text>
+<text x="565" y="625" text-anchor="middle" class="s">Set to 5.0 V first</text>
+
+<rect class="box" x="830" y="400" width="420" height="390"/>
+<text x="1040" y="440" text-anchor="middle" class="h">XIAO ESP32-C6</text>
+<text x="865" y="495" class="t">5V ← buck</text><text x="865" y="530" class="t">GND ← common</text>
+<text x="865" y="580" class="t">D0/GPIO0 → IN1</text><text x="865" y="620" class="t">D1/GPIO1 → IN2</text>
+<text x="865" y="670" class="t">D2/GPIO2 ← Encoder A</text><text x="865" y="710" class="t">D3/GPIO21 ← Encoder B</text>
+<text x="1055" y="580" class="t">D4/GPIO22 ← OPEN</text><text x="1055" y="620" class="t">D5/GPIO23 ← CLOSE</text>
+<text x="1055" y="670" class="t">D6/GPIO16 ← SLIP</text>
+<text x="1040" y="755" text-anchor="middle" class="s">Inputs close to GND and use pull-ups</text>
+
+<rect class="box" x="1335" y="360" width="225" height="130"/>
+<text x="1447" y="400" text-anchor="middle" class="h">3-PIN ENCODER</text>
+<text x="1370" y="440" class="t">COMMON → GND</text>
+<text x="1370" y="472" class="t">A → D2, B → D3</text>
+
+<rect class="box" x="1335" y="530" width="225" height="70"/><text x="1447" y="575" text-anchor="middle" class="t">OPEN: D4 ↔ GND</text>
+<rect class="box" x="1335" y="630" width="225" height="70"/><text x="1447" y="675" text-anchor="middle" class="t">CLOSE: D5 ↔ GND</text>
+<rect class="box" x="1335" y="730" width="225" height="90"/><text x="1447" y="770" text-anchor="middle" class="t">SLIP: D6 ↔ GND</text>
+<text x="1447" y="800" text-anchor="middle" class="s">Normally open</text>
+
+<path class="p" d="M285 195 H410"/><path class="g" d="M285 240 H380 V215 H410"/>
+<path class="p" d="M350 195 V565 H410"/><path class="g" d="M380 240 V600 H410"/>
+<path class="m" d="M750 175 H1000"/><path class="m" d="M750 215 H970 V210 H1000"/>
+<path class="p" d="M720 565 H790 V495 H830"/><path class="g" d="M720 600 H780 V530 H830"/>
+<path class="sig" d="M830 580 H780 V270 H750"/><path class="sig" d="M830 620 H765 V315 H750"/>
+<path class="sig" d="M1250 670 H1290 V440 H1335"/><path class="sig" d="M1250 710 H1305 V472 H1335"/>
+<path class="sig" d="M1250 580 H1295 V565 H1335"/><path class="sig" d="M1250 620 H1310 V665 H1335"/>
+<path class="sig" d="M1250 670 H1280 V775 H1335"/>
+<path class="g" d="M1250 530 H1270 V870 H1450"/><path class="g" d="M1447 490 V870"/><path class="g" d="M1447 600 V870"/><path class="g" d="M1447 700 V870"/><path class="g" d="M1447 820 V870"/>
+
+<rect class="note" x="45" y="835" width="1160" height="110" rx="14"/>
+<text x="70" y="875" class="h">SAFETY RULE</text>
+<text x="70" y="912" class="t">Any slip-switch activation immediately sets IN1=IN2=LOW and blocks the tripped direction.</text>
+<text x="70" y="938" class="t">Only reverse motion is allowed until the switch releases. Encoder feedback is position-only.</text>
+</svg>
