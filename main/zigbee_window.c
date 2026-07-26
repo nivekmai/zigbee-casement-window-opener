@@ -194,7 +194,13 @@ void esp_zb_app_signal_handler(esp_zb_app_signal_t *signal_struct)
 
 static void zigbee_task(void *arg)
 {
-    esp_zb_cfg_t cfg = ESP_ZB_ZR_CONFIG();
+    esp_zb_cfg_t cfg = {
+        .esp_zb_role = ESP_ZB_DEVICE_TYPE_ROUTER,
+        .install_code_policy = false,
+        .nwk_cfg.zczr_cfg = {
+            .max_children = 10,
+        },
+    };
     esp_zb_init(&cfg);
 
     esp_zb_ep_list_t *endpoints = esp_zb_ep_list_create();
@@ -217,10 +223,10 @@ esp_err_t zigbee_window_start(void)
 {
     esp_zb_platform_config_t platform = {
         .radio_config = {
-            .radio_mode = ESP_ZB_RADIO_MODE_NATIVE,
+            .radio_mode = ZB_RADIO_MODE_NATIVE,
         },
         .host_config = {
-            .host_connection_mode = ESP_ZB_HOST_CONNECTION_MODE_NONE,
+            .host_connection_mode = ZB_HOST_CONNECTION_MODE_NONE,
         },
     };
     ESP_RETURN_ON_ERROR(
