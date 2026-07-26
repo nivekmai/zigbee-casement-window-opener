@@ -18,7 +18,6 @@
 #include "esp_zigbee_core.h"
 #include "esp_zigbee_cluster.h"
 #include "esp_zigbee_attribute.h"
-#include "esp_zigbee_ha_standard.h"
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 
