@@ -21,6 +21,7 @@ jobs:
       - name: Build ESP32-C6 firmware
         shell: bash
         run: |
+          source /opt/esp/idf/export.sh
           idf.py set-target esp32c6
           idf.py build
 
