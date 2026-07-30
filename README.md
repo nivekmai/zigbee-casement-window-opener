@@ -94,34 +94,21 @@ obstruction, the path must be clear during boot homing.
 
 After a slip trip, press the opposite direction until the switch releases.
 
-## Build
+## Get the firmware
 
-The supported build environment is ESP-IDF 5.5.4 targeting the ESP32-C6. Install
-that ESP-IDF release, activate its environment in the current shell, then run from
-the repository root:
+GitHub Actions is the primary build path. The **Build firmware** workflow runs on
+every push to `main`, every pull request and manual dispatch. It builds the complete
+ESP32-C6 firmware in Espressif's pinned ESP-IDF 5.5.4 container.
 
-```bash
-source /path/to/esp-idf/export.sh
-idf.py set-target esp32c6
-idf.py build
-idf.py -p /dev/ttyACM0 flash monitor
-```
+Open a successful workflow run in GitHub and download its artifact from the
+**Artifacts** section. Each artifact is retained for 30 days and contains:
 
-On Windows, activate ESP-IDF with its supplied PowerShell or Command Prompt script
-and replace the serial port with something like `COM5`.
-
-If a local ESP-IDF installation is not available, push a branch or manually run
-the **Build firmware** workflow in GitHub Actions. It uses Espressif's pinned
-ESP-IDF 5.5.4 container and produces a downloadable flashable-firmware artifact.
-
-This project pins the legacy/stable Espressif Zigbee component family used by its
-source:
-
-- `esp-zigbee-lib 1.6.8`
-- `esp-zboss-lib 1.6.4`
-
-Do not silently upgrade to 2.x: Espressif replaced and renamed the Zigbee API in
-2.x. Port `zigbee_window.c` deliberately if upgrading.
+- `bootloader.bin`
+- `partition-table.bin`
+- `zigbee_casement_window.bin`
+- flashing metadata, when generated
+- the resolved `sdkconfig`
+- build commit information
 
 ## Pairing with Home Assistant ZHA
 
@@ -153,32 +140,10 @@ Bench-test with the motor mechanically disconnected first. Verify:
 
 If direction is reversed, change `MOTOR_DIRECTION_INVERTED` in `main/pins.h`.
 
-## Build status
+## Automation
 
-The complete ESP32-C6 firmware and the host-side state-machine tests build
-successfully in GitHub Actions. The firmware workflow also verifies that the
-bootloader, partition table and application image can be collected into a
-downloadable artifact.
-
-The repository includes three automation workflows under `.github/workflows/`.
-
-### Continuous firmware build
-
-`build.yml` runs on every push to `main`, every pull request, and manual dispatch.
-It builds the project inside Espressif's ESP-IDF 5.5.4 container for the ESP32-C6
-and uploads a downloadable workflow artifact containing:
-
-- `bootloader.bin`
-- `partition-table.bin`
-- `zigbee_casement_window.bin`
-- `flash_args`, when generated
-- `flasher_args.json`, when generated
-- `project_description.json`, when generated
-- the resolved `sdkconfig`
-- build commit information
-
-Open the workflow run in GitHub and download the artifact from its **Artifacts**
-section. Artifacts are retained for 30 days by the supplied workflow.
+The repository includes three GitHub Actions workflows under `.github/workflows/`:
+continuous firmware builds, state-machine tests and tagged releases.
 
 ### State-machine tests
 
@@ -221,6 +186,26 @@ and require these checks before merging into `main`:
 
 This prevents pull requests that fail compilation or behavioral tests from being
 merged.
+
+### Optional local development build
+
+A local build is only needed to compile before pushing, use `menuconfig`, or flash
+and monitor a connected board interactively. Install ESP-IDF 5.5.4, activate it in
+the current shell, then run from the repository root:
+
+```bash
+source /path/to/esp-idf/export.sh
+idf.py set-target esp32c6
+idf.py build
+idf.py -p /dev/ttyACM0 flash monitor
+```
+
+On Windows, activate ESP-IDF with its supplied PowerShell or Command Prompt script
+and use a serial port such as `COM5`.
+
+The source pins `esp-zigbee-lib 1.6.8` and `esp-zboss-lib 1.6.4`. Do not silently
+upgrade to Zigbee 2.x; its API is different and `main/zigbee_window.c` must be
+ported deliberately.
 
 ### Updating ESP-IDF
 
