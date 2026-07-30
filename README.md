@@ -96,15 +96,23 @@ After a slip trip, press the opposite direction until the switch releases.
 
 ## Build
 
-Install ESP-IDF, then from this directory:
+The supported build environment is ESP-IDF 5.5.4 targeting the ESP32-C6. Install
+that ESP-IDF release, activate its environment in the current shell, then run from
+the repository root:
 
 ```bash
+source /path/to/esp-idf/export.sh
 idf.py set-target esp32c6
 idf.py build
 idf.py -p /dev/ttyACM0 flash monitor
 ```
 
-On Windows, replace the port with something like `COM5`.
+On Windows, activate ESP-IDF with its supplied PowerShell or Command Prompt script
+and replace the serial port with something like `COM5`.
+
+If a local ESP-IDF installation is not available, push a branch or manually run
+the **Build firmware** workflow in GitHub Actions. It uses Espressif's pinned
+ESP-IDF 5.5.4 container and produces a downloadable flashable-firmware artifact.
 
 This project pins the legacy/stable Espressif Zigbee component family used by its
 source:
@@ -145,29 +153,14 @@ Bench-test with the motor mechanically disconnected first. Verify:
 
 If direction is reversed, change `MOTOR_DIRECTION_INVERTED` in `main/pins.h`.
 
-## Compile-status note
+## Build status
 
-The local motor/encoder state machine and Python behavioral tests are included and
-syntax-checked. The complete ESP-IDF binary was not built in this environment
-because the ESP-IDF toolchain and Espressif binary Zigbee components are not
-installed here. The Zigbee adapter is pinned to 1.6.8 APIs to make the dependency
-surface deterministic, but the first real `idf.py build` is the authoritative
-compatibility check.
+The complete ESP32-C6 firmware and the host-side state-machine tests build
+successfully in GitHub Actions. The firmware workflow also verifies that the
+bootloader, partition table and application image can be collected into a
+downloadable artifact.
 
-## GitHub repository setup
-
-Extract the ZIP, enter the extracted directory, and push it to an empty repository:
-
-```bash
-git init
-git add .
-git commit -m "Initial Zigbee window-opener firmware"
-git branch -M main
-git remote add origin https://github.com/nivekmai/zigbee-casement-window-opener.git
-git push -u origin main
-```
-
-The repository includes three GitHub Actions workflows under `.github/workflows/`.
+The repository includes three automation workflows under `.github/workflows/`.
 
 ### Continuous firmware build
 
@@ -197,6 +190,8 @@ lockout after a trip, and restoration after switch release.
 
 `release.yml` runs whenever a tag beginning with `v` is pushed. It rebuilds the
 firmware and creates a GitHub Release with ZIP and TAR.GZ firmware bundles attached.
+The underlying firmware build path is exercised by the continuous build workflow;
+publishing a release additionally requires pushing a version tag.
 
 Create a release like this:
 
